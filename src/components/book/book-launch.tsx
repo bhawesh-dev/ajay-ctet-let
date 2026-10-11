@@ -91,32 +91,32 @@ const BOOK_FEATURES = [
 
 /* =========================================================
    SIX BOOK IMAGES
-   Files: public/books/1.jpg through 6.jpg
+   Files: public/books/1.png through 6.png
 ========================================================= */
 
 const BOOK_GALLERY = [
   {
-    src: "/books/1.PNG",
+    src: "/books/1.png",
     alt: "SLET 2026 Guide — book page 1",
   },
   {
-    src: "/books/2.PNG",
+    src: "/books/2.png",
     alt: "SLET 2026 Guide — book page 2",
   },
   {
-    src: "/books/3.PNG",
+    src: "/books/3.png",
     alt: "SLET 2026 Guide — book page 3",
   },
   {
-    src: "/books/4.PNG",
+    src: "/books/4.png",
     alt: "SLET 2026 Guide — book page 4",
   },
   {
-    src: "/books/5.PNG",
+    src: "/books/5.png",
     alt: "SLET 2026 Guide — book page 5",
   },
   {
-    src: "/books/6.PNG",
+    src: "/books/6.png",
     alt: "SLET 2026 Guide — book page 6",
   },
 ];
