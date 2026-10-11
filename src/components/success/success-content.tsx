@@ -1,5 +1,6 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import jsPDF from "jspdf";
@@ -14,11 +15,31 @@ import {
 
 import { Hind } from "next/font/google";
 
+/*
+ * Load the PDF viewer only in the browser.
+ */
+
+const PdfViewer = dynamic(
+  () => import("@/components/success/pdf-viewer"),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="flex min-h-[420px] items-center justify-center text-sm text-[#64748B]">
+        Loading PDF viewer...
+      </div>
+    ),
+  }
+);
+
 const hindi = Hind({
   subsets: ["devanagari", "latin"],
   weight: ["400", "500", "600", "700"],
   display: "swap",
 });
+
+/* =========================================================
+   TYPES
+========================================================= */
 
 export type SuccessType =
   | "batch_registration"
@@ -45,6 +66,10 @@ type Props = {
   record: SubmissionRecord;
 };
 
+/* =========================================================
+   CONSTANTS
+========================================================= */
+
 const SAMPLE_PDF_URL = "/documents/book-sample.pdf";
 
 const titles: Record<SuccessType, string> = {
@@ -52,6 +77,10 @@ const titles: Record<SuccessType, string> = {
   book_preorder: "Book Pre-Order Successful",
   book_sample: "Your Book Sample Is Ready",
 };
+
+/* =========================================================
+   DATE FORMATTER
+========================================================= */
 
 function formatDate(value: string) {
   const date = new Date(value);
@@ -90,7 +119,8 @@ function createReceipt(
   const paleBlue: [number, number, number] = [238, 244, 255];
   const grey: [number, number, number] = [90, 105, 130];
 
-  // Header
+  /* Header */
+
   pdf.setFillColor(...navy);
   pdf.rect(0, 0, width, 43, "F");
 
@@ -105,6 +135,7 @@ function createReceipt(
 
   pdf.setTextColor(255, 196, 0);
   pdf.setFontSize(9);
+
   pdf.text(
     type === "batch_registration"
       ? "BATCH REGISTRATION"
@@ -113,7 +144,8 @@ function createReceipt(
     36
   );
 
-  // Reference number
+  /* Reference number */
+
   pdf.setFillColor(...paleBlue);
   pdf.roundedRect(15, 51, 180, 26, 3, 3, "F");
 
@@ -127,6 +159,8 @@ function createReceipt(
   pdf.text(serialNumber, 21, 70);
 
   let y = 91;
+
+  /* Applicant details */
 
   pdf.setTextColor(...navy);
   pdf.setFont("helvetica", "bold");
@@ -166,6 +200,7 @@ function createReceipt(
     pdf.setTextColor(...navy);
 
     const lines = pdf.splitTextToSize(value || "-", 165);
+
     pdf.text(lines, 20, y);
 
     y += lines.length * 5 + 5;
@@ -176,7 +211,8 @@ function createReceipt(
     }
   }
 
-  // Acknowledgement notice
+  /* Acknowledgement notice */
+
   if (y + 30 > pageHeight - 20) {
     pdf.addPage();
     y = 25;
@@ -200,9 +236,11 @@ function createReceipt(
 
   pdf.text(notice, 21, y + 15);
 
-  // Footer on the last page
+  /* Footer */
+
   pdf.setTextColor(...grey);
   pdf.setFontSize(8);
+
   pdf.text(
     "Ajay CTET Classes | Saharsa, Bihar",
     20,
@@ -221,7 +259,6 @@ export default function SuccessContent({
   serialNumber,
   record,
 }: Props) {
-  const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const [pdfBlob, setPdfBlob] = useState<Blob | null>(null);
   const [message, setMessage] = useState("");
   const [sharing, setSharing] = useState(false);
@@ -233,34 +270,46 @@ export default function SuccessContent({
       ? "Batch Registration Number"
       : "Book Pre-Order Number";
 
-  /*
-   * Generate receipt only for batch registration
-   * and book pre-order submissions.
-   */
+  /* =======================================================
+     GENERATE RECEIPT PDF
+  ======================================================= */
 
   useEffect(() => {
     if (isSample || !serialNumber) {
       setPdfBlob(null);
-      setPdfUrl(null);
       return;
     }
 
-    const pdf = createReceipt(
-      type as Exclude<SuccessType, "book_sample">,
-      serialNumber,
-      record
-    );
+    try {
+      const pdf = createReceipt(
+        type as Exclude<SuccessType, "book_sample">,
+        serialNumber,
+        record
+      );
 
-    const blob = pdf.output("blob");
-    const url = URL.createObjectURL(blob);
+      const blob = pdf.output("blob");
 
-    setPdfBlob(blob);
-    setPdfUrl(url);
-
-    return () => {
-      URL.revokeObjectURL(url);
-    };
-  }, [type, serialNumber, record, isSample]);
+      setPdfBlob(blob);
+    } catch (error) {
+      console.error("Receipt PDF generation failed:", error);
+      setPdfBlob(null);
+    }
+  }, [
+    type,
+    serialNumber,
+    isSample,
+    record.fullName,
+    record.fatherName,
+    record.motherName,
+    record.mobile,
+    record.whatsapp,
+    record.address,
+    record.city,
+    record.district,
+    record.state,
+    record.pin,
+    record.createdAt,
+  ]);
 
   /* =======================================================
      DOWNLOAD PDF
@@ -341,8 +390,7 @@ export default function SuccessContent({
       });
 
       /*
-       * On supported mobile browsers, the native share sheet
-       * lets the user choose WhatsApp or another installed app.
+       * Use the native sharing interface when supported.
        */
 
       if (
@@ -362,7 +410,7 @@ export default function SuccessContent({
       }
 
       /*
-       * Fallback for browsers that cannot share files directly.
+       * Fallback for browsers without file sharing.
        */
 
       if (!isSample) {
@@ -385,7 +433,8 @@ export default function SuccessContent({
         return;
       }
 
-      const sampleLink = `${window.location.origin}${SAMPLE_PDF_URL}`;
+      const sampleLink =
+        `${window.location.origin}${SAMPLE_PDF_URL}`;
 
       const text = encodeURIComponent(
         `Ajay CTET Classes — Book Sample: ${sampleLink}`
@@ -411,13 +460,16 @@ export default function SuccessContent({
     }
   }
 
+  /* =======================================================
+     RENDER
+  ======================================================= */
+
   return (
     <main className="min-h-screen bg-[#F7F9FE] px-4 py-8 text-[#192958] sm:px-6 sm:py-12">
       <div className="mx-auto max-w-4xl">
 
         {/* =================================================
             1. SUCCESS HEADER
-            No enclosing card.
         ================================================= */}
 
         <section className="px-1 py-3 text-center sm:py-5">
@@ -432,7 +484,7 @@ export default function SuccessContent({
             {titles[type]}
           </h1>
 
-          {/* Sample has no serial-number card. */}
+          {/* Sample introduction */}
 
           {isSample && (
             <p
@@ -443,7 +495,7 @@ export default function SuccessContent({
             </p>
           )}
 
-          {/* Serial number remains inside its own highlighted card. */}
+          {/* Serial number */}
 
           {!isSample && serialNumber && (
             <div className="mx-auto mt-7 max-w-2xl rounded-2xl border border-blue-100 bg-[#EEF4FF] px-5 py-6 sm:mt-8 sm:px-8 sm:py-7">
@@ -465,7 +517,7 @@ export default function SuccessContent({
             </div>
           )}
 
-          {/* Receipt reminder outside the serial-number card. */}
+          {/* Receipt reminder */}
 
           {!isSample && (
             <p
@@ -494,7 +546,9 @@ export default function SuccessContent({
 
             <div className="min-w-0">
               <h2 className="text-base font-bold leading-snug text-[#192958] sm:text-lg">
-                {isSample ? "Book Sample PDF" : "Acknowledgement PDF"}
+                {isSample
+                  ? "Book Sample PDF"
+                  : "Acknowledgement PDF"}
               </h2>
 
               <p className="mt-1 text-xs leading-5 text-[#64748B] sm:text-sm">
@@ -506,22 +560,23 @@ export default function SuccessContent({
 
           </div>
 
-          {/* PDF preview */}
+          {/* PDF.js viewer */}
 
           {isSample ? (
-            <iframe
-              title="Ajay CTET Classes book sample PDF"
-              src={`${SAMPLE_PDF_URL}#toolbar=0`}
-              className="block h-[65vh] min-h-[420px] w-full border-0 sm:h-[600px]"
+            <PdfViewer
+              file={SAMPLE_PDF_URL}
+              title="Ajay CTET Classes book sample"
             />
-          ) : pdfUrl ? (
-            <iframe
-              title="Registration acknowledgement PDF"
-              src={`${pdfUrl}#toolbar=0`}
-              className="block h-[65vh] min-h-[420px] w-full border-0 sm:h-[600px]"
+          ) : pdfBlob ? (
+            <PdfViewer
+              file={pdfBlob}
+              title="Registration acknowledgement"
             />
           ) : (
-            <div className="flex min-h-[320px] items-center justify-center px-5 text-center text-sm text-[#64748B]">
+            <div
+              role="status"
+              className="flex min-h-[320px] items-center justify-center px-5 text-center text-sm text-[#64748B]"
+            >
               Preparing your PDF...
             </div>
           )}
@@ -546,7 +601,9 @@ export default function SuccessContent({
               className={`${hindi.className} inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-blue-200 bg-[#EEF4FF] px-5 py-3 text-sm font-bold text-[#23449B] transition-colors hover:bg-[#E2EBFF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#23449B] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60`}
             >
               <Share2 className="h-4 w-4" />
-              {sharing ? "Preparing to share..." : "Share PDF"}
+              {sharing
+                ? "Preparing to share..."
+                : "Share PDF"}
             </button>
 
           </div>
@@ -564,7 +621,6 @@ export default function SuccessContent({
 
         {/* =================================================
             3. NEXT STEPS
-            Only for batch and book pre-order.
         ================================================= */}
 
         {!isSample && (
@@ -598,7 +654,7 @@ export default function SuccessContent({
                 <p
                   className={`${hindi.className} mt-3 text-sm leading-7 text-blue-100 sm:text-base`}
                 >
-                  Book pre-order acknowledgement को screenshot लें या PDF
+                  Book pre-order acknowledgement का screenshot लें या PDF
                   download करके सुरक्षित रखें। अपना reference number नोट कर लें।
                 </p>
 
@@ -622,9 +678,10 @@ export default function SuccessContent({
           </section>
         )}
 
-        {/* Simple return link */}
+        {/* Back to Home */}
 
         <div className="pb-3 pt-6 text-center sm:pt-8">
+
           <Link
             href="/"
             className={`${hindi.className} inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-blue-200 bg-white px-5 py-2.5 text-sm font-semibold text-[#192958] transition-colors hover:bg-[#EEF4FF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#23449B] focus-visible:ring-offset-2`}
@@ -632,6 +689,7 @@ export default function SuccessContent({
             <ArrowLeft className="h-4 w-4" />
             Back to Home
           </Link>
+
         </div>
 
       </div>
