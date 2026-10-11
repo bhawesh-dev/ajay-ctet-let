@@ -240,7 +240,7 @@ export default function BatchPage() {
             onClick={handleRegisterClick}
             className={`${hindi.className} group mt-5 inline-flex min-h-14 w-full items-center justify-center gap-2.5 rounded-xl bg-[#FFC400] px-5 py-3.5 text-base font-bold text-[#192958] shadow-sm transition-colors duration-200 hover:bg-yellow-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#23449B] focus-visible:ring-offset-2 sm:mt-6 sm:min-h-16 sm:max-w-3xl sm:text-lg`}
           >
-            Register Now
+                एडमिशन लें
 
             <ArrowRight className="h-5 w-5 shrink-0 transition-transform duration-200 group-hover:translate-x-1" />
           </button>
@@ -500,7 +500,7 @@ export default function BatchPage() {
                   onClick={handleRegisterClick}
                   className={`${hindi.className} group mt-4 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#FFC400] px-5 py-3 text-sm font-bold text-[#192958] shadow-sm transition-colors hover:bg-yellow-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#192958]`}
                 >
-                  Register Now
+                      एडमिशन लें
 
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </button>

@@ -235,56 +235,7 @@ export function BookLaunch() {
     <main className="min-h-screen overflow-hidden bg-[#F7F9FE] text-[#192958]">
 
       {/* =====================================================
-          1. HERO
-      ===================================================== */}
-
-      <section className="relative overflow-hidden bg-[#EEF4FF] px-4 py-8 sm:px-6 sm:py-12 lg:px-8 lg:py-14">
-
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -right-24 -top-24 h-64 w-64 rounded-full bg-[#FFC400]/10 sm:h-80 sm:w-80"
-        />
-
-        <div className="relative mx-auto max-w-7xl">
-
-          <p
-            className={`${hindi.className} text-xs font-bold tracking-[0.12em] text-[#23449B] sm:text-sm`}
-          >
-            {BOOK.edition}
-          </p>
-
-          <h1 className="mt-4 font-extrabold leading-[1.02] tracking-tight">
-
-            <span className="block text-[clamp(3rem,10vw,5.25rem)] text-[#192958]">
-              {BOOK.title}
-            </span>
-
-            <span className="mt-1 block text-[clamp(2.6rem,8vw,4rem)] text-[#23449B]">
-              {BOOK.subtitle}
-            </span>
-
-          </h1>
-
-          <p
-            className={`${hindi.className} mt-5 max-w-3xl text-sm leading-7 text-[#4B5D7A] sm:text-base sm:leading-8`}
-          >
-            लाइब्रेरियन परीक्षा की तैयारी के लिए एक comprehensive guide।
-            <br />
-            सरल, बोलचाल की हिंदी में theory और साथ में English शब्दावली।
-          </p>
-
-          <p
-            className={`${hindi.className} mt-3 max-w-3xl text-sm leading-7 text-[#4B5D7A] sm:text-base`}
-          >
-            सम्पूर्ण थ्योरी, Quick Revision Mind Maps, हल प्रश्न-पत्र और
-            chapter-wise practice questions।
-          </p>
-
-        </div>
-      </section>
-
-      {/* =====================================================
-          2. MINIMAL BOOK CAROUSEL
+          1. BOOK CAROUSEL — NOW AT THE TOP
           One image, two arrows, no captions or cards.
       ===================================================== */}
 
@@ -352,8 +303,57 @@ export function BookLaunch() {
       </section>
 
       {/* =====================================================
+          2. HERO — NOW DIRECTLY BELOW THE CAROUSEL
+      ===================================================== */}
+
+      <section className="relative overflow-hidden bg-[#EEF4FF] px-4 py-8 sm:px-6 sm:py-12 lg:px-8 lg:py-14">
+
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -right-24 -top-24 h-64 w-64 rounded-full bg-[#FFC400]/10 sm:h-80 sm:w-80"
+        />
+
+        <div className="relative mx-auto max-w-7xl">
+
+          <p
+            className={`${hindi.className} text-xs font-bold tracking-[0.12em] text-[#23449B] sm:text-sm`}
+          >
+            {BOOK.edition}
+          </p>
+
+          <h1 className="mt-4 font-extrabold leading-[1.02] tracking-tight">
+
+            <span className="block text-[clamp(3rem,10vw,5.25rem)] text-[#192958]">
+              {BOOK.title}
+            </span>
+
+            <span className="mt-1 block text-[clamp(2.6rem,8vw,4rem)] text-[#23449B]">
+              {BOOK.subtitle}
+            </span>
+
+          </h1>
+
+          <p
+            className={`${hindi.className} mt-5 max-w-3xl text-sm leading-7 text-[#4B5D7A] sm:text-base sm:leading-8`}
+          >
+            लाइब्रेरियन परीक्षा की तैयारी के लिए एक comprehensive guide।
+            <br />
+            सरल, बोलचाल की हिंदी में theory और साथ में English शब्दावली।
+          </p>
+
+          <p
+            className={`${hindi.className} mt-3 max-w-3xl text-sm leading-7 text-[#4B5D7A] sm:text-base`}
+          >
+            सम्पूर्ण थ्योरी, Quick Revision Mind Maps, हल प्रश्न-पत्र और
+            chapter-wise practice questions।
+          </p>
+
+        </div>
+      </section>
+
+      {/* =====================================================
           3. QUICK ACTION BUTTONS
-          Immediately below the carousel.
+          Same buttons and functionality as before.
       ===================================================== */}
 
       <section className="px-4 pb-10 sm:px-6 sm:pb-12 lg:px-8">
@@ -366,7 +366,7 @@ export function BookLaunch() {
             className={`${hindi.className} group inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-[#FFC400] px-5 py-3.5 text-sm font-bold text-[#192958] shadow-sm transition-colors hover:bg-yellow-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#23449B] focus-visible:ring-offset-2 sm:text-base`}
           >
             <ShoppingBag className="h-5 w-5" />
-            Pre-Order Book
+            Book खरीदें
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
           </button>
 
@@ -376,7 +376,7 @@ export function BookLaunch() {
             className={`${hindi.className} group inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-blue-200 bg-white px-5 py-3.5 text-sm font-bold text-[#23449B] transition-colors hover:border-[#FFC400] hover:bg-[#FFF9E5] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#23449B] focus-visible:ring-offset-2 sm:text-base`}
           >
             <Download className="h-5 w-5" />
-            Download Book Sample
+            Book Sample डाउनलोड करें
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
           </button>
 
@@ -574,8 +574,8 @@ export function BookLaunch() {
       </section>
 
       {/* =====================================================
-          7. TWO SEPARATE ACTION CARDS — RESTORED
-          These cards remain near the bottom of the page.
+          7. TWO SEPARATE ACTION CARDS
+          Both cards remain unchanged.
       ===================================================== */}
 
       <section
@@ -633,7 +633,7 @@ export function BookLaunch() {
                 onClick={() => openForm("book_preorder")}
                 className={`${hindi.className} group mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#FFC400] px-5 py-3 text-sm font-bold text-[#192958] transition-colors hover:bg-yellow-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#23449B] focus-visible:ring-offset-2`}
               >
-                Pre-Order Book
+                Book खरीदें
 
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </button>
@@ -668,7 +668,7 @@ export function BookLaunch() {
                 onClick={() => openForm("book_sample")}
                 className={`${hindi.className} group mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl border border-blue-200 bg-[#EEF4FF] px-5 py-3 text-sm font-bold text-[#23449B] transition-colors hover:border-[#FFC400] hover:bg-[#FFF9E5] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#23449B] focus-visible:ring-offset-2`}
               >
-                Request Book Sample
+                Book Sample डाउनलोड करें
 
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </button>

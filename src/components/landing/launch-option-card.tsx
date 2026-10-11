@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { PenLine, BookOpen, ArrowRight } from "lucide-react";
+import Image from "next/image";
+import { ArrowRight } from "lucide-react";
 import type { CSSProperties } from "react";
 
 type LaunchOptionCardProps = {
@@ -26,6 +27,12 @@ export function LaunchOptionCard({
   const isBatchCard = href.startsWith("/batch");
   const isBookCard = href.startsWith("/book");
 
+  const thumbnailSrc = isBatchCard
+    ? "/thumbnails/bihar-librarian-batch.png"
+    : isBookCard
+      ? "/thumbnails/bihar-librarian-book.png"
+      : null;
+
   const displayDescription = isBatchCard
     ? "बैच की जानकारी देखें और registration के लिए आगे बढ़ें।"
     : isBookCard
@@ -33,18 +40,12 @@ export function LaunchOptionCard({
       : description;
 
   const displayButtonLabel = isBatchCard
-    ? "Register Now"
+    ? "एडमिशन लें"
     : isBookCard
-      ? "Explore Book"
+      ? "बुक खरीदें"
       : buttonLabel;
 
   const isBlueButton = button === "#23449B";
-
-  const CardIcon = isBatchCard
-    ? PenLine
-    : isBookCard
-      ? BookOpen
-      : null;
 
   return (
     <article
@@ -57,16 +58,29 @@ export function LaunchOptionCard({
         } as CSSProperties
       }
     >
-      {/* Card icon */}
-      <div className="launch-card__icon" aria-hidden="true">
-        {CardIcon ? (
-          <CardIcon className="h-7 w-7" strokeWidth={1.8} />
-        ) : (
-          icon
-        )}
-      </div>
+      {/* Thumbnail for batch and book cards */}
+      {thumbnailSrc ? (
+        <div className="mb-5 aspect-video w-full overflow-hidden rounded-xl">
+          <Image
+            src={thumbnailSrc}
+            alt={
+              isBatchCard
+                ? "Bihar Librarian 2026 Batch Registration"
+                : "Bihar Librarian 2026 Book Pre-Order"
+            }
+            width={1200}
+            height={675}
+            sizes="(max-width: 768px) 100vw, 50vw"
+            className="h-full w-full object-cover"
+          />
+        </div>
+      ) : (
+        <div className="launch-card__icon" aria-hidden="true">
+          {icon}
+        </div>
+      )}
 
-      {/* Card title with a controlled line break */}
+      {/* Card title */}
       <h3>
         {isBatchCard ? (
           <>

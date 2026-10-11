@@ -240,10 +240,7 @@ export function LaunchSubmissionForm({ type, onClose }: Props) {
           )}
         </div>
 
-        <p>
-          Share your details and our team will follow up when this launch
-          is ready.
-        </p>
+        
       </div>
 
       <div className="form-grid">

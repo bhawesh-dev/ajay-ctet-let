@@ -21,8 +21,7 @@ export function HeroSection() {
 
           {/* Description in Hindi */}
           <p className={hindi.className}>
-            बिहार लाइब्रेरियन 2026 बैच के लिए Register करें!    या SLET 2026 किताब
-            के बारे में जानकारी पाएं।
+            बिहार लाइब्रेरियन 2026 बैच के लिए Register करें!
           </p>
 
           <p className={hindi.className}>
