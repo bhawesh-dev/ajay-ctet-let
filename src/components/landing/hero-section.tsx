@@ -21,7 +21,7 @@ export function HeroSection() {
 
           {/* Description in Hindi */}
           <p className={hindi.className}>
-            बिहार लाइब्रेरियन 2026 बैच के लिए Register करें!
+            बिहार लाइब्रेरियन 2026 बैच के लिए Admission करें!
           </p>
 
           <p className={hindi.className}>
@@ -37,7 +37,7 @@ export function HeroSection() {
               className="group flex min-h-[54px] w-full items-center justify-center gap-2 rounded-xl bg-[#FFC400] px-4 py-3 text-center text-sm font-bold leading-5 text-[#192958] shadow-sm transition-colors duration-200 hover:bg-yellow-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#23449B] focus-visible:ring-offset-2 sm:min-h-[58px] sm:px-5 sm:text-base"
             >
               <span className={hindi.className}>
-                Batch में Register करें
+                Batch में Admission करें
               </span>
 
               <ArrowRight className="h-4 w-4 shrink-0 transition-transform duration-200 group-hover:translate-x-1" />

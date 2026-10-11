@@ -34,7 +34,7 @@ export function LaunchOptionCard({
       : null;
 
   const displayDescription = isBatchCard
-    ? "बैच की जानकारी देखें और registration के लिए आगे बढ़ें।"
+    ? "बैच की जानकारी देखें और admission के लिए आगे बढ़ें।"
     : isBookCard
       ? "किताब की जानकारी, sample और pre-order के लिए आगे बढ़ें।"
       : description;
@@ -65,7 +65,7 @@ export function LaunchOptionCard({
             src={thumbnailSrc}
             alt={
               isBatchCard
-                ? "Bihar Librarian 2026 Batch Registration"
+                ? "Bihar Librarian 2026 Batch Admission"
                 : "Bihar Librarian 2026 Book Pre-Order"
             }
             width={1200}
@@ -85,7 +85,7 @@ export function LaunchOptionCard({
         {isBatchCard ? (
           <>
             Bihar Librarian 2026
-            <span className="block">Batch Registration</span>
+            <span className="block">Batch Admission</span>
           </>
         ) : isBookCard ? (
           <>
@@ -96,6 +96,7 @@ export function LaunchOptionCard({
           title
         )}
       </h3>
+
 
       {/* Description */}
       <p>{displayDescription}</p>
