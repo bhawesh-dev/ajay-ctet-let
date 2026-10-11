@@ -119,6 +119,10 @@ const BOOK_GALLERY = [
     src: "/books/6.png",
     alt: "SLET 2026 Guide — book page 6",
   },
+  {
+    src: "/books/7.png",
+    alt: "SLET 2026 Guide — book page 7",
+  },
 ];
 
 /* =========================================================
